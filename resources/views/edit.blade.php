@@ -72,7 +72,8 @@
         }
 
         button {
-            background-color: #66bb6a;
+            background-color: #343a40;
+            
             color: white;
             border: none;
             padding: 12px 18px;
@@ -109,7 +110,8 @@
         }
 
         .footer {
-            background-color: #66bb6a;
+            background-color: #343a40;
+           
             color: white;
             text-align: center;
             padding: 8px;

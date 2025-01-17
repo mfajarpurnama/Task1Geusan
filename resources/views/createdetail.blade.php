@@ -136,7 +136,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
-        <a href="/products" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Products</a>
+        <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Products</a>
     </div>
 
     <!-- Footer -->

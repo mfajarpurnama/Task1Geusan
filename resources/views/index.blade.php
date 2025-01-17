@@ -10,7 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-
     <style>
         body {
             background-color: #f8f9fa;
@@ -19,7 +18,7 @@
             padding-left: 0;
             display: flex;
             flex-direction: column;
-            height: 100vh; /* Set body height to fill the viewport */
+            height: 100vh;
         }
         .navbar-custom {
             background-color: #343a40;
@@ -29,7 +28,7 @@
             color: #fff;
         }
         .navbar-custom .nav-link:hover {
-            color: #ffd700;
+            color:rgb(255, 0, 200);
         }
         /* Sidebar */
         .sidebar {
@@ -42,8 +41,8 @@
             padding-top: 60px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             display: block;
-            z-index: 999; /* Make sure it's above content */
-            transition: left 0.3s ease; /* Animasi ketika sidebar muncul */
+            z-index: 999;
+            transition: left 0.3s ease;
         }
         .sidebar a {
             color: #fff;
@@ -55,16 +54,22 @@
         .sidebar a:hover {
             background-color: #495057;
         }
-        /* Content Wrapper to prevent overlap with sidebar */
+        /* Content Wrapper */
         .content-wrapper {
             margin-left: 0;
-            padding-top: 70px; /* Adjust for navbar */
-            flex: 1; /* Allow content to grow and fill remaining space */
-            overflow-y: auto; /* Enable scrolling */
-            padding-bottom: 60px; /* Space for footer */
+            padding-top: 70px;
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 60px;
+            transition: margin-left 0.3s ease;
         }
         .table-responsive {
             margin-left: 0;
+            opacity: 0;
+        }
+        .table-responsive.show {
+            opacity: 1;
+            animation: fadeIn 1s ease-out;
         }
         .btn-add-product {
             position: fixed;
@@ -85,7 +90,6 @@
         .btn-add-product:hover {
             background-color: #444;
         }
-        /* Button to show sidebar */
         .btn-sidebar-toggle {
             position: fixed;
             top: 20px;
@@ -97,14 +101,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-        .btn-custom {
-            margin-right: 5px;
-            padding: 10px 15px;
-        }
-        .btn-icon i {
-            margin-right: 5px;
-        }
-        /* Footer Style */
         .footer {
             background-color: #343a40;
             color: #fff;
@@ -112,14 +108,14 @@
             text-align: center;
             padding: 10px 0;
             width: 100%;
-            position: absolute; /* Keep footer at the bottom */
+            position: absolute;
             bottom: 0;
         }
         #searchInput {
             padding: 10px 15px;
             font-size: 16px;
             border-radius: 25px;
-            border: 2px solid #4CAF50;
+
             width: 250px;
             margin-right: 10px;
             outline: none;
@@ -130,7 +126,8 @@
         }
         .search-btn {
             padding: 10px 15px;
-            background-color: #4CAF50;
+            background-color: #343a40;
+
             color: white;
             border: none;
             border-radius: 25px;
@@ -139,7 +136,14 @@
             display: inline-block;
             vertical-align: middle;
         }
-
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -154,10 +158,7 @@
         <a href="#">Dashboard</a>
         <a href="#">Products</a>
         <a href="#">Categories</a>
-        <a href="#">Orders</a>
-        <a href="#">Customers</a>
-        <a href="#">Reports</a>
-        <a href="#">Settings</a>
+       
     </div>
 
     <!-- Navbar -->
@@ -190,7 +191,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-hover"id="example" class="display" style="width:100%">
+                <table class="table table-bordered table-hover" id="example" class="display" style="width:100%">
                     <thead class="table-dark">
                         <tr>
                             <th>Product Name</th>
@@ -213,17 +214,14 @@
                                 </td>
                                 <td class="actions-column">
                                     <div>
-                                        <!-- Create Variant Button -->
                                         <a class="btn btn-secondary btn-sm btn-custom btn-icon" href="/product_variants/create">
                                             <i class="bi bi-plus-circle"></i> Create Variant
                                         </a>
 
-                                        <!-- Edit Product Button -->
                                         <a href="/products/edit/{{ $product->id }}" class="btn btn-warning btn-sm btn-custom btn-icon">
                                             <i class="bi bi-pencil"></i> Edit
                                         </a>
                                         
-                                        <!-- Delete Product Button -->
                                         <form action="/products/delete/{{ $product->id }}" method="get" class="d-inline">
                                             @csrf
                                             @method('DELETE')
@@ -245,12 +243,10 @@
                                         </td>
                                         <td colspan="2" class="variant-actions">
                                             <div class="d-flex justify-content-end">
-                                                <!-- Edit Variant Button -->
                                                 <a href="/product_variants/edit/{{ $variant->id }}" class="btn btn-secondary btn-sm btn-custom btn-icon">
                                                     <i class="bi bi-pencil"></i> Edit Variant
                                                 </a>
                                                  
-                                                <!-- Delete Variant Button -->
                                                 <form action="/products_variants/delete/{{ $variant->id }}" method="get" class="d-inline">
                                                     @csrf
                                                     <button type="submit" class="btn btn-danger btn-sm btn-custom btn-icon">
@@ -264,11 +260,7 @@
                             @endif
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center">
-                                    <div class="alert alert-warning">
-                                        No products available. <a href="/products/create" class="alert-link">Add a product</a> to get started!
-                                    </div>
-                                </td>
+                                <td colspan="4">No products found</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -277,62 +269,34 @@
         </div>
     </div>
 
-    <!-- Fixed Add New Product Button -->
-    <a href="/products/create" class="btn-add-product">
-        <i class="bi bi-plus-circle"></i>
-    </a>
-
     <!-- Footer -->
     <footer class="footer">
-        <p class="mb-0" style="font-size: 0.8rem;">&copy; 2025 Product Management. All rights reserved.</p>
+        <p>&copy; 2025 Product Management. All Rights Reserved.</p>
     </footer>
 
-    <script>
-         function searchTask() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const notes = document.querySelectorAll('.note-item');
-            notes.forEach(note => {
-                const title = note.querySelector('td a').innerText.toLowerCase();
-                const content = note.querySelector('td ul').innerText.toLowerCase();
-                if (title.includes(input) || content.includes(input)) {
-                    note.style.display = '';
-                } else {
-                    note.style.display = 'none';
-                }
-            });
-        }
-    </script>
+    <button class="btn-add-product" onclick="window.location.href='/products/create'">
+        <i class="bi bi-plus"></i>
+    </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const table = document.querySelector('.table-responsive');
+            table.classList.add('fade-in', 'show');
+        });
+
+        // Toggle sidebar
         document.getElementById('sidebarToggle').addEventListener('click', function() {
-            var sidebar = document.getElementById('sidebar');
-            var contentWrapper = document.querySelector('.content-wrapper');
+            const sidebar = document.getElementById('sidebar');
+            const contentWrapper = document.querySelector('.content-wrapper');
+
             if (sidebar.style.left === '0px') {
                 sidebar.style.left = '-250px';
-                contentWrapper.style.marginLeft = '0';
+                contentWrapper.style.marginLeft = '0';  // Reset margin when sidebar closes
             } else {
                 sidebar.style.left = '0';
-                contentWrapper.style.marginLeft = '250px';
+                contentWrapper.style.marginLeft = '250px';  // Shift content when sidebar opens
             }
         });
     </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteForms = document.querySelectorAll('form[action*="delete"]');
-        
-        deleteForms.forEach(form => {
-            form.addEventListener('submit', function (e) {
-                e.preventDefault(); // Mencegah form langsung submit
-                const confirmation = confirm('Apakah Anda yakin ingin menghapus data ini?');
-                if (confirmation) {
-                    form.submit(); // Submit form jika dikonfirmasi
-                }
-            });
-        });
-    });
-</script>
-
-   
 </body>
 </html>

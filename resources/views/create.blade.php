@@ -143,7 +143,7 @@
             <button type="submit">Create Product</button>
         </form>
 
-        <a href="/index" class="back-btn"><i class="fas fa-arrow-left icon"></i> Back to Products List</a>
+        <a href="/" class="back-btn"><i class="fas fa-arrow-left icon"></i> Back to Products List</a>
     </div>
 
     <!-- Footer Section -->
