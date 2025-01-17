@@ -115,6 +115,31 @@
             position: absolute; /* Keep footer at the bottom */
             bottom: 0;
         }
+        #searchInput {
+            padding: 10px 15px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: 2px solid #4CAF50;
+            width: 250px;
+            margin-right: 10px;
+            outline: none;
+        }
+        #searchInput:focus {
+            border-color: #2196F3;
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.7);
+        }
+        .search-btn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
     </style>
 </head>
 <body>
@@ -158,6 +183,10 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="h3">Product Management</h1>
+                  <div>
+                    <input type="text" id="searchInput" placeholder="Search products...">
+                    <button onclick="searchTask()">Search</button>
+                </div>
             </div>
 
             <div class="table-responsive">
@@ -257,6 +286,22 @@
     <footer class="footer">
         <p class="mb-0" style="font-size: 0.8rem;">&copy; 2025 Product Management. All rights reserved.</p>
     </footer>
+
+    <script>
+         function searchTask() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const notes = document.querySelectorAll('.note-item');
+            notes.forEach(note => {
+                const title = note.querySelector('td a').innerText.toLowerCase();
+                const content = note.querySelector('td ul').innerText.toLowerCase();
+                if (title.includes(input) || content.includes(input)) {
+                    note.style.display = '';
+                } else {
+                    note.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
